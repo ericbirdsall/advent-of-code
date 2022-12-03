@@ -14,6 +14,5 @@ text.split('\n').forEach(line => {
 });
 
 max = max.sort((a, b) => a - b).reverse();
-console.log(max)
-console.log(max[0] + max[1] + max[2]);
 
+console.log(max[0] + max[1] + max[2]);
