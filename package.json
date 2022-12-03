@@ -1,0 +1,22 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "Repo contains work on [Advent of Code](https://adventofcode.com/). I am primarily trying to produce solutions in the fastest time possible rather than adhering to the strictest code quality standards 😃.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericbirdsall/advent-of-code.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericbirdsall/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/ericbirdsall/advent-of-code#readme",
+  "dependencies": {
+    "underscore": "^1.13.6"
+  }
+}
