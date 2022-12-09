@@ -33,10 +33,6 @@ text.split('\n').forEach(line => {
   };
 });
 
-
-let sum = {};
-let sum2 = 0;
-
 let dirs = [];
 santaFS['/'] = 'dir'
 Object.keys(santaFS).forEach(key => {
@@ -50,13 +46,9 @@ Object.keys(santaFS).forEach(key => {
 
     let size = sizes.reduce((a, b) => a + b, 0);
 
-
-
     if ((42586708 - size) < 40000000) {
       dirs.push(size);
-
     }
-
   }
 });
 

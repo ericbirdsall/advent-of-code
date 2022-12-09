@@ -33,8 +33,6 @@ text.split('\n').forEach(line => {
   };
 });
 
-
-
 let sum = 0;
 Object.keys(santaFS).forEach(key => {
   if (santaFS[key] == 'dir') {
