@@ -5,19 +5,18 @@ let text = fs.readFileSync('input.txt', {encoding:'utf8', flag:'r'});
 
 let EOLs = _.range(6).map(i => ((i + 1) * 40));
 let registerVal = 1;
-let cycle = 0;
+let cycle = 1;
 let msg = '';
 
 function checkCycle() {
   let sprite = _.range(3).map(i => (registerVal - 1 + i));
 
-  if (EOLs.includes(cycle)) msg += '\n';
-
-  if (sprite.includes(cycle % 40)) {
+  if (sprite.includes((cycle - 1) % 40)) {
     msg += '#'
   } else {
     msg += '.'
   }
+  if (EOLs.includes(cycle)) msg += '\n';
 };
 
 text.split('\n').forEach(line => {
@@ -33,7 +32,6 @@ text.split('\n').forEach(line => {
     cycle += 1;
     checkCycle()
     cycle += 1;
-
     registerVal += integer;
   }
 });

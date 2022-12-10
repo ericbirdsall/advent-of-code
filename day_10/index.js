@@ -3,12 +3,9 @@ const fs = require('fs');
 
 let text = fs.readFileSync('input.txt', {encoding:'utf8', flag:'r'});
 
-
 let cycles = _.range(6).map(i => 20 + (i * 40));
-
 let registerVal = 1;
 let cycle = 1;
-let strength = 1;
 
 let accum = 0;
 function checkCycle() {
@@ -23,15 +20,15 @@ text.split('\n').forEach(line => {
   integer = Number(integer);
 
   if (instruction === 'noop') {
-    cycle += 1;
     checkCycle();
+    cycle += 1;
   }
   if (instruction === 'addx') {
+    checkCycle()
     cycle += 1;
     checkCycle()
     cycle += 1;
     registerVal += integer;
-    checkCycle()
   }
 });
 
