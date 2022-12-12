@@ -47,14 +47,14 @@ function keyForNode(node) {
 }
 
 function findPathWithDijkstra(start, end) {
-  let times = {};
+  let steps = {};
   let backtrace = {};
 
-  times[keyForNode(start)] = 0;
+  steps[keyForNode(start)] = 0;
 
   Object.values(nodes).forEach(node => {
     if (node !== start) {
-      times[keyForNode(node)] = Infinity;
+      steps[keyForNode(node)] = Infinity;
     }
   });
 
@@ -79,17 +79,17 @@ function findPathWithDijkstra(start, end) {
         return;
       }
 
-      let time = times[keyForNode(currentNode)] + 1;
+      let newSteps = steps[keyForNode(currentNode)] + 1;
 
-      if (time < times[keyForNode(adjacentNode)]) {
-        times[keyForNode(adjacentNode)] = time;
+      if (newSteps < steps[keyForNode(adjacentNode)]) {
+        steps[keyForNode(adjacentNode)] = newSteps;
         backtrace[keyForNode(adjacentNode)] = currentNode;
-        queue.queue([adjacentNode, time]);
+        queue.queue([adjacentNode, newSteps]);
       }
     });
   }
 
-  console.log(times[keyForNode(end)]);
+  console.log(steps[keyForNode(end)]);
 
   let path = [end];
   let lastStep = end;
