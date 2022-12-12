@@ -38,16 +38,7 @@ for (let i = 0; i < grid.length; i ++) {
   }
 }
 
-let minPath = Infinity;
-
-starts.forEach(start => {
-  let length = findPathWithDijkstra(start, end);
-  if (length < minPath) {
-    minPath = length;
-  }
-});
-
-console.log(minPath);
+console.log(findPathWithDijkstra(starts, end));
 
 function nodeForCoords(i, j) {
   return nodes[JSON.stringify({i, j})];
@@ -57,19 +48,20 @@ function keyForNode(node) {
   return JSON.stringify({i: node.i, j: node.j});
 }
 
-function findPathWithDijkstra(start, end) {
+function findPathWithDijkstra(starts, end) {
   let steps = {};
   let backtrace = {};
 
-  steps[keyForNode(start)] = 0;
+  starts.forEach(start => {
+    steps[keyForNode(start)] = 0;
+    queue.queue([start, 0])
+  });
 
   Object.values(nodes).forEach(node => {
-    if (node !== start) {
+    if (!starts.includes(node)) {
       steps[keyForNode(node)] = Infinity;
     }
   });
-
-  queue.queue([start, 0])
 
   while (queue.length !== 0) {
     let shortestStep = queue.dequeue();
