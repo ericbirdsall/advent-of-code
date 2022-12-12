@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ericbirdsall/advent-of-code#readme",
   "dependencies": {
+    "js-priority-queue": "^0.1.5",
     "underscore": "^1.13.6"
   }
 }
