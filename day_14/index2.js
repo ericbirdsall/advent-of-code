@@ -28,7 +28,7 @@ text.split('\n').forEach(path => {
 
 maxFloor += 2;
 
-function createImage(iter) {
+function createImage() {
   console.log('writing image');
 
   let image = new Jimp(grid.length, grid[0].length, function (err, image) {
@@ -48,9 +48,7 @@ function createImage(iter) {
       });
     });
 
-    iter = '' + iter;
-    while (iter.length < 4) iter = '0' + iter;
-    image.write(`img_${iter}.png`, (err) => {
+    image.write(`sand_overflow.png`, (err) => {
       if (err) throw err;
     });
   });
@@ -91,11 +89,11 @@ while (true) {
       break;
     }
   }
-  // createImage(sandSpawned);
+
   if (saturated) break;
   sandSpawned++;
 }
 
-createImage(0);
+createImage();
 
 console.log(sandSpawned);

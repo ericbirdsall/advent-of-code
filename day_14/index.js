@@ -23,9 +23,7 @@ text.split('\n').forEach(path => {
   }
 });
 
-function createImage(iter) {
-  console.log('writing image');
-
+function createImage() {
   let image = new Jimp(grid.length, grid[0].length, function (err, image) {
     if (err) throw err;
 
@@ -43,14 +41,11 @@ function createImage(iter) {
       });
     });
 
-    iter = '' + iter;
-    while (iter.length < 4) iter = '0' + iter;
-    image.write(`img_${iter}.png`, (err) => {
+    image.write(`sand_sim.png`, (err) => {
       if (err) throw err;
     });
   });
 }
-// createImage(0);
 
 const sandStart = [500,0];
 
@@ -87,6 +82,6 @@ while (true) {
   sandSpawned++;
 }
 
-createImage(0);
+createImage();
 
 console.log(sandSpawned);
