@@ -12,5 +12,6 @@ module.exports = {
     },
     "rules": {
         "semi": [2, "always"],
+        "no-constant-condition": [1, {"checkLoops": false}]
     }
-}
+};
