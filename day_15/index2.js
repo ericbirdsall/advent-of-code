@@ -77,14 +77,17 @@ for (let rowIndex = 0; rowIndex <= CEIL; rowIndex++) {
   if (count < CEIL) {
     // we have found a row where a beacon **can be**
     // find the unoccluded index in this range (x)
-    let counts = _.range(CEIL + 1).map(() => true);
-    occludedRanges.forEach(([i, j]) => {
-      for (;i <= j; i++) {
-        counts[i] = false;
+    let x;
+    for (let i = 0; i <= CEIL; i++) {
+      let unoccluded = occludedRanges.every(range => {
+        return !(range[0] <= i && i <= range[1]);
+      });
+      if (unoccluded) {
+        x = i;
+        break;
       }
-    });
+    }
 
-    let x = counts.findIndex(i => i);
     console.log(x * CEIL + rowIndex);
     break;
   }
