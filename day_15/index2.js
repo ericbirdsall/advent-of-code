@@ -14,8 +14,7 @@ function getDistance(x,y, i, j) {
 
 let sensorBeaconPairs = [];
 text.split('\n').forEach(line => {
-  let [n, sensorX, sensorY, beaconX, beaconY] = line.match(/.*x=([-]?\d*), y=([-]?\d*).*x=([-]?\d*).*y=([-]?\d*)/);
-
+  let [, sensorX, sensorY, beaconX, beaconY] = line.match(/.*x=([-]?\d*), y=([-]?\d*).*x=([-]?\d*).*y=([-]?\d*)/);
 
   sensorBeaconPairs.push({
     sensorX: Number(sensorX),
@@ -78,7 +77,7 @@ for (let rowIndex = 0; rowIndex <= CEIL; rowIndex++) {
   if (count < CEIL) {
     // we have found a row where a beacon **can be**
     // find the unoccluded index in this range (x)
-    let counts = _.range(CEIL + 1).map(i => true);
+    let counts = _.range(CEIL + 1).map(() => true);
     occludedRanges.forEach(([i, j]) => {
       for (;i <= j; i++) {
         counts[i] = false;
