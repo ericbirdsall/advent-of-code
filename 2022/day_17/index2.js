@@ -43,11 +43,18 @@ let windDirs = text.split('');
 
 const CAVERN_WIDTH = 7;
 
-let cavern = _.range(1_000_000).map(() => _.range(CAVERN_WIDTH).map(() => 0));
+let cavern = _.range(20_000_000).map(() => _.range(CAVERN_WIDTH).map(() => 0));
 
-const NUM_ROCKS = 2022, startCol = 2;
+const NUM_ROCKS = 1000000000000, startCol = 2;
 
-let steps = 0, highestRow = -1;
+let
+  steps = 0,
+  highestRow = -1,
+  offset = 0,
+  floor = 0,
+  occupied = _.range(CAVERN_WIDTH).map(() => false)
+;
+
 for (let i = 0; i < NUM_ROCKS; i++) {
   let rock = {
     shape: rocks[i % rocks.length],
@@ -59,25 +66,45 @@ for (let i = 0; i < NUM_ROCKS; i++) {
     let windDir = windDirs[steps % windDirs.length];
     steps++;
 
-    tryWindPush(cavern, rock, windDir);
+    tryWindPush(cavern, rock, windDir, offset);
 
-    let fell = tryGravity(cavern, rock);
+    let fell = tryGravity(cavern, rock, offset);
 
     if (!fell) {
-      let maxPlacement = placeRock(cavern, rock);
-      if (maxPlacement > highestRow) {
-        highestRow = maxPlacement;
+      let maxPlacement = placeRock(cavern, rock, offset);
+      if (maxPlacement + offset > highestRow) {
+        highestRow = maxPlacement + offset;
+        // occupied = occupied.map((col, i) => col || cavern[maxPlacement][i]);
       }
       break;
     }
 
   }
-  // drawCavern(rock);
+  if (i > 10_000_000) {
+    let start = 1_000;
+    for (let i = 300_000; i >= 10; i--) {
+      let cycle = true;
+      for (let j = 0; j < i; j++) {
+        let left = cavern[start + j];
+        let right = cavern[start + i + j];
+        if (JSON.stringify(left) !== JSON.stringify(right)) {
+          cycle = false;
+          break;
+        }
+      }
+      if (cycle) console.log(i);
+      process.exit(0);
+    }
+
+  }
+  if (i % 100_000 === 0) {
+    console.log(i)
+  }
 }
 
 console.log(highestRow + 1);
 
-function tryWindPush(cavern, rock, windDir) {
+function tryWindPush(cavern, rock, windDir, offset) {
   let {shape, row, col} = rock;
   let move = windDir === '<' ? -1 : 1;
   let canShift = true;
@@ -88,14 +115,17 @@ function tryWindPush(cavern, rock, windDir) {
         // hit wall
         if (desiredCol < 0 || desiredCol > (CAVERN_WIDTH - 1)) {
           canShift = false;
+          break;
         }
-
+        // if (!cavern[row + i - offset]) console.log(cavern.length, row, i, offset)
         // there is a rock bit here, and an obstruction where we want to move it
-        if (cavern[row + i][col + j + move]) {
+        if (cavern[row + i - offset][col + j + move]) {
           canShift = false;
+          break;
         }
       }
     }
+    if (!canShift) break;
   }
 
   if (canShift) {
@@ -103,7 +133,7 @@ function tryWindPush(cavern, rock, windDir) {
   }
 }
 
-function tryGravity(cavern, rock) {
+function tryGravity(cavern, rock, offset) {
   let {shape, row, col} = rock;
 
   let canFall = true;
@@ -111,12 +141,14 @@ function tryGravity(cavern, rock) {
     for (let j = 0; j < shape[0].length; j++) {
       // there is a rock bit here, and no free space under it
       if (shape[i][j]) {
-        let desiredRow = row + i - 1;
+        let desiredRow = row + i - 1 - offset;
         if (desiredRow < 0 || cavern[desiredRow][col + j]) {
           canFall = false;
+          break;
         }
       }
     }
+    if (!canFall) break;
   }
   if (canFall) {
     rock.row -= 1;
@@ -125,13 +157,13 @@ function tryGravity(cavern, rock) {
   return canFall;
 }
 
-function placeRock(cavern, {shape, row, col}) {
+function placeRock(cavern, {shape, row, col}, offset) {
   let highestRow = -Infinity;
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[0].length; j++) {
       if (shape[i][j]) {
-        let placementRow = row + i;
-        cavern[row + i][col + j] = 1;
+        let placementRow = row + i - offset;
+        cavern[placementRow][col + j] = 1;
         if (placementRow > highestRow) highestRow = placementRow;
       }
     }
